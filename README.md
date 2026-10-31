@@ -13,8 +13,6 @@ npm install
 npx playwright install chromium
 ```
 
-No account or credentials are required for the public website scenarios or GraphQL API tests in this repository.
-
 ## Run Tests
 
 Run all website tests on desktop and mobile:
