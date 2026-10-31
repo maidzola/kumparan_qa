@@ -9,6 +9,7 @@ const MOBILE = { ...devices['Pixel 7'] };
 
 export default defineConfig({
   testDir: './tests/web',
+  testIgnore: '**/seed.spec.ts',
   fullyParallel: true,                 // every test is independent -> parallel at test level
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,               // retries only in CI; trace is captured on first retry

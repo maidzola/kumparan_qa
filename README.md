@@ -1,42 +1,86 @@
-# kumparan QA Skill Test - Task 2: Playwright website tests (desktop + mobile)
+# Kumparan QA Playwright
 
-## Run
+Playwright tests for the public Kumparan website and the GraphQLZero API. Website projects are configured for desktop Chrome and mobile Pixel 7 emulation.
+
+## Setup
+
+Requirements: Node.js and npm.
+
+From the repository root, install project dependencies and the Chromium browser used by Playwright:
+
 ```bash
 npm install
 npx playwright install chromium
-cp .env.example .env            # (Windows CMD: copy .env.example .env) then fill the QA account
 ```
 
-## Before the first run: verify locators with codegen
-`data-qa-id` is configured as the test-id attribute, so codegen prints `getByTestId('...')` for elements that have it.
+No account or credentials are required for the public website scenarios or GraphQL API tests in this repository.
+
+## Run Tests
+
+Run all website tests on desktop and mobile:
+
 ```bash
-npx playwright codegen https://kumparan.com                    # desktop
-npx playwright codegen --device="Pixel 7" https://kumparan.com # mobile
-npm run discover:qa-ids                                        # dumps all data-qa-id per page -> discovered-qa-ids.json
+npm run test:web
 ```
-Then update **tests/web/locators.ts** (selectors) and **tests/web/pages/kumparan.page.ts** (flows: openLogin, login, search, openFirstArticle).
 
-## Commands
+Run one project only:
+
 ```bash
 npm run test:desktop
 npm run test:mobile
-npm run test:web          # both
-npm run test:smoke        # @smoke subset
-npx playwright test tests/web/search.spec.ts --project=desktop --headed
+```
+
+Open the Playwright UI or the HTML report:
+
+```bash
 npx playwright test --ui
 npm run report
 ```
 
-## Layout
-| Path | Purpose |
-|---|---|
-| docs/01-test-cases.md | Task 1: test cases, risks, assumptions, exit criteria |
-| docs/02-automation-strategy.md | Task 2: parallel, cleanup, timeouts, retries, flaky handling |
-| docs/04-execution-report.md | Execution results / defects (fill in after running) |
-| tests/web/locators.ts | All selectors ([data-qa-id] first, role/text fallbacks) |
-| tests/web/pages/ | Page object |
-| tests/web/fixtures/ | `app` (anonymous) and `authedApp` (logged-in) fixtures, fresh context per test |
-| tests/web/auth.setup.ts | Login once per device, saves .auth/*.json |
-| tests/web/*.spec.ts | Specs: navigation, search, auth, article-actions |
+Run a specific spec by its path. Quote paths that contain spaces:
 
-Without credentials, authenticated tests are skipped (not failed).
+```bash
+npx playwright test "tests/web/scenario/Playwright - Website Test/kumparan.spec.ts" --project=desktop --project=mobile
+```
+
+## Task 1 - Manual Test Cases
+
+The manual QA scenarios, test data, steps, priority, severity, and expected results are in [specs/01-test-cases.md](specs/01-test-cases.md).
+
+## Task 2 - Website Automation
+
+The baseline Playwright website test is [kumparan.spec.ts](tests/web/scenario/Playwright%20-%20Website%20Test/kumparan.spec.ts). Run it on both projects with:
+
+```bash
+npx playwright test "tests/web/scenario/Playwright - Website Test/kumparan.spec.ts" --project=desktop --project=mobile
+```
+
+## Task 3 - Test Plan and Playwright Agents
+
+The public-site test plan is [specs/kumparan-public-site-test-plan.md](specs/kumparan-public-site-test-plan.md). Generated website specs are in [tests/web/scenario/Playwright Agent - Website Test](tests/web/scenario/Playwright%20Agent%20-%20Website%20Test); the current scenarios cover homepage navigation, Trending, search suggestions, and mobile navigation.
+
+Run those generated scenarios on both projects:
+
+```bash
+npx playwright test "tests/web/scenario/Playwright Agent - Website Test" --project=desktop --project=mobile
+```
+
+The custom agent definitions are in `.github/agents/`:
+
+- **Planner** (`playwright-test-planner`): explores the public site and saves independent manual scenarios to the test plan.
+- **Generator** (`playwright-test-generator`): takes a selected plan scenario, verifies the live UI flow, then writes a Playwright spec in the scenario folder. Review the selectors and assertions before running it.
+- **Healer** (`playwright-test-healer`): runs or debugs failing specs, examines the failure and page state, updates the test, then reruns it to verify the fix.
+
+To implement a scenario, open Copilot Chat, select the Planner agent to update or create the plan, then select the Generator agent and provide the plan file, scenario name, and target spec path. After reviewing the generated spec, run that spec with the command above. If it fails, use the Healer agent with the failing spec and error output, then rerun the affected test.
+
+## Task 4 - GraphQLZero API Tests
+
+The GraphQL API tests are in [graphqlzero.spec.ts](tests/web/api/graphqlzero.spec.ts). They use Playwright's `request` fixture and do not use browser page interactions.
+
+Run the API spec once with the desktop project:
+
+```bash
+npx playwright test tests/web/api/graphqlzero.spec.ts --project=desktop
+```
+
+The file includes five successful queries and three negative cases. Use the `desktop` project for this API-only spec to avoid running the same requests again under the mobile project.
