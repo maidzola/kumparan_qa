@@ -91,10 +91,10 @@ show report ```bash
 npx playwright show-report
 ```
 **Task 2**
-![alt text](image-1.png)
+<img width="600" height="300" alt="image" src="https://github.com/user-attachments/assets/4182bfda-bb3c-49ca-b19a-c4ba6d458bcb" />
 
 **Task 3**
 ![alt text](image.png)
 
 **Task 4**
-![alt text](image-2.png)
+<img width="600" height="300" alt="image" src="https://github.com/user-attachments/assets/6a4624a8-da6e-4814-aa2b-4b2f92f196ae" />
