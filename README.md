@@ -1,4 +1,5 @@
 # Kumparan QA Playwright
+This repository is part of my skill test submission for the QA Engineer application at Kumparan.
 
 Playwright tests for the public Kumparan website and the GraphQLZero API. Website projects are configured for desktop Chrome and mobile Pixel 7 emulation.
 
