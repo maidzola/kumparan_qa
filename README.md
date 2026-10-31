@@ -92,7 +92,7 @@ npx playwright show-report
 
 **Task 2**
 
-<img width="1004" height="620" alt="image" src="https://github.com/user-attachments/assets/4182bfda-bb3c-49ca-b19a-c4ba6d458bcb" />
+<img width="1002" height="600" alt="image" src="https://github.com/user-attachments/assets/4182bfda-bb3c-49ca-b19a-c4ba6d458bcb" />
 
 **Task 3**
 
