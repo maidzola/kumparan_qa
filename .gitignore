@@ -1,0 +1,7 @@
+node_modules
+.env
+.auth/*.json
+test-results
+playwright-report
+discovered-qa-ids.json
+.DS_Store
