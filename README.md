@@ -84,3 +84,17 @@ npx playwright test tests/web/api/graphqlzero.spec.ts --project=desktop
 ```
 
 The file includes five successful queries and three negative cases. Use the `desktop` project for this API-only spec to avoid running the same requests again under the mobile project.
+
+
+## Actual Result
+show report ```bash
+npx playwright show-report
+```
+**Task 2**
+![alt text](image-1.png)
+
+**Task 3**
+![alt text](image.png)
+
+**Task 4**
+![alt text](image-2.png)
